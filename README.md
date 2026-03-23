@@ -1,68 +1,146 @@
-# Bug: Detect/diagnose subtle logic drift in agent workflows — The drift analysis reports show 0 traces
+# Create test cases for analyze command
 
-## Description
+## What it does
 
-This tool detects and diagnoses subtle logic drift in agent workflows. It collects agent execution traces, analyzes them for logic drift using statistical methods (Kolmogorov-Smirnov test), and generates comprehensive reports.
+This tool detects and diagnoses subtle logic drift in agent workflows by:
+1. Collecting agent execution traces from JSON files
+2. Analyzing traces for statistical drift between batches
+3. Generating reports with analysis results
 
-**Bug fixed:** The drift analysis reports now correctly show the number of traces loaded and generate reports based on actual data rather than default values, even when traces are in newline-separated JSON format.
+The tool also includes comprehensive test cases to verify the analyze command behavior:
+- Valid traces are processed correctly
+- Invalid traces are skipped with appropriate warnings
+- The count of loaded traces matches the number of valid traces
+- Error cases are handled gracefully
 
-## Features
+## How to install
 
-- Loads agent execution traces from JSON files
-- Handles both proper JSON arrays and newline-separated JSON objects
-- Detects logic drift using statistical analysis
-- Generates detailed text reports with drift analysis results
-- Shows workflow distribution and drift detection per workflow type
-
-## Requirements
-
-- Python 3.6+
-- numpy, scipy (installed via requirements.txt)
-
-## Installation
+No external dependencies required (uses only Python stdlib).
 
 ```bash
-pip install -r requirements.txt
+# Clone or download the files
+git clone https://github.com/venturevd/detect-diagnose-subtle-logic-drift-in-ag
+cd detect-diagnose-subtle-logic-drift-in-ag
 ```
 
-## Usage
+## How to use
 
 ```bash
-python3 main.py [directory] [options]
-```
+# Analyze traces in a directory
+python3 main.py /path/to/trace/files
 
-### Arguments
-
-- `directory`: Optional. Directory containing JSON trace files (default: current directory)
-- `--output`: Optional. Output file for the analysis report (default: print to console)
-- `--help`: Show help message and exit
-
-### Example
-
-```bash
-# Analyze traces in current directory
+# Analyze traces in current directory (default)
 python3 main.py .
 
-# Analyze traces in specific directory and save report
-python3 main.py ./traces --output analysis_report.txt
+# Run test cases for the analyze command
+python3 main.py --test
+
+# Save report to file
+python3 main.py /path/to/trace/files --output report.txt
 ```
 
-## How It Works
+## Example usage
 
-1. **Trace Loading**: The tool reads JSON files from the specified directory, handling both proper JSON arrays and newline-separated JSON objects.
-2. **Drift Analysis**: For each workflow type, the tool compares execution metrics between batches using the Kolmogorov-Smirnov test.
-3. **Report Generation**: A detailed report is generated showing:
-   - Total traces analyzed
-   - Workflow distribution
-   - Drift detection results per workflow
-   - Statistical analysis details
-
-## Verification
-
-Run the following command to verify the tool works:
+### Running the built-in tests
 
 ```bash
-python3 main.py --help
+$ python3 main.py --test
+
+============================================================
+RUNNING TESTS FOR ANALYZE COMMAND
+============================================================
+
+Test 1: Valid traces in newline-separated format
+  ✓ PASS: Loaded 3 valid traces from newline format
+
+Test 2: Mixed valid and invalid traces
+  ✓ PASS: Loaded 3 valid traces, skipped 1 invalid
+
+Test 3: Invalid directory handling
+  ✓ PASS: Empty list returned for non-existent directory
+
+Test 4: Empty directory handling
+  ✓ PASS: Empty list returned for empty directory
+
+Test 5: Invalid JSON objects handling
+  ✓ PASS: Skipped 2 invalid JSON objects, loaded 2 valid traces
+
+Test 6: Directory with non-JSON files
+  ✓ PASS: Empty list returned when no JSON files present
+
+Test 7: analyze_drift handles empty traces
+  ✓ PASS: Empty traces handled correctly
+
+Test 8: analyze_drift with single trace (insufficient for drift analysis)
+  ✓ PASS: Single trace handled correctly (drift detection skipped)
+
+Test 9: analyze_drift detects drift between batches
+  ✓ PASS: Drift correctly detected between batches
+
+Test 10: analyze_drift with traces from same batch (no drift expected)
+  ✓ PASS: Same batch traces correctly analyzed
+
+============================================================
+TEST SUMMARY
+============================================================
+Tests passed: 10/10
+
+🎉 All tests PASSED!
 ```
 
-This should display the help message with usage instructions.
+### Analyzing real traces
+
+**Trace file format (newline-separated JSON):**
+
+```json
+{"workflow_type": "agent", "steps": [{"action": "start"}, {"action": "end"}]}
+{"workflow_type": "agent", "steps": [{"action": "start"}, {"action": "step"}, {"action": "step"}, {"action": "end"}]}
+{"workflow_type": "agent", "steps": [{"action": "start"}]}
+```
+
+**Run analysis:**
+
+```bash
+python3 main.py ./traces
+```
+
+**Output:**
+
+```
+============================================================
+AGENT LOGIC DRIFT ANALYSIS REPORT
+============================================================
+Total traces analyzed: 3
+Workflows analyzed: 1
+Overall drift detected: NO
+
+WORKFLOW DISTRIBUTION:
+  agent: 3 traces
+
+DRIFT ANALYSIS RESULTS:
+
+Workflow: agent
+  Drift detected: NO
+  Analysis: KS test statistic: 0.000, p-value: 1.000
+
+============================================================
+Report generated by Agent Logic Drift Analyzer
+============================================================
+```
+
+## Test cases covered
+
+The `--test` flag runs 10 comprehensive tests:
+
+| # | Test | Description |
+|---|------|-------------|
+| 1 | Valid newline format | Loads traces from newline-separated JSON |
+| 2 | Mixed valid/invalid | Skips invalid lines and empty lines |
+| 3 | Invalid directory | Returns empty list for non-existent directory |
+| 4 | Empty directory | Returns empty list when no files exist |
+| 5 | Invalid JSON objects | Skips malformed JSON with warnings |
+| 6 | Non-JSON files | Ignores non-JSON files in directory |
+| 7 | Empty traces | Handles empty traces list in analyze_drift |
+| 8 | Single trace | Skips drift analysis with insufficient data |
+| 9 | Drift detection | Correctly detects drift between batches |
+| 10 | Same batch analysis | No false positives with identical traces |

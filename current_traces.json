@@ -1,0 +1,68 @@
+[
+    {
+        "trace_id": "tr_123456",
+        "agent_id": "test-agent-1",
+        "input": "Test input 1",
+        "output": "Test output 1",
+        "status": "success",
+        "steps": [
+            {
+                "type": "reasoning",
+                "content": "Step 1"
+            },
+            {
+                "type": "reasoning",
+                "content": "Step 2"
+            },
+            {
+                "type": "reasoning",
+                "content": "Step 4"  # Changed last step
+            },
+            {
+                "type": "tool_call",
+                "tool_call": {
+                    "name": "test_tool",
+                    "arguments": {"param": "value"}
+                }
+            }
+        ],
+        "metrics": {
+            "total_duration_ms": 120  # Changed duration
+        }
+    },
+    {
+        "trace_id": "tr_654321",
+        "agent_id": "test-agent-2",
+        "input": "Test input 2",
+        "output": "Test output 2",
+        "status": "success",
+        "steps": [
+            {
+                "type": "reasoning",
+                "content": "Step 1"
+            },
+            {
+                "type": "reasoning",
+                "content": "Step 2"
+            },
+            {
+                "type": "reasoning",
+                "content": "Step 3"
+            },
+            {
+                "type": "reasoning",
+                "content": "Step 5"  # Added step
+            },
+            {
+                "type": "tool_call",
+                "tool_call": {
+                    "name": "test_tool",
+                    "arguments": {"param": "value"}
+                }
+            }
+        ],
+        "metrics": {
+            "total_duration_ms": 180  # Changed duration
+        }
+    }
+]

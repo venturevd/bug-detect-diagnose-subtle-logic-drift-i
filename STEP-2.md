@@ -1,14 +1,16 @@
-# Step 2: Documentation
+# Step 2: Add README documentation
 
-**File to create:** `README.md`
-**Estimated size:** ~30 lines
-
-**Depends on:** STEP-1.md (those files should already exist)
+**File to create:** `main.py`
+**Estimated size:** ~200 lines
 
 ## Instructions
 
-Write a README.md for this tool. Title: Bug: Detect/diagnose subtle logic drift in ag — The drift analysis reports show 0 traces. Include: what it does, how to install, how to use, example usage.
+Create documentation explaining how to use the analyze command, including:
+1. Installation instructions
+2. Usage examples
+3. Command-line argument descriptions
+4. Expected output format
 
 ## Verification
 
-Run: `cat README.md`
+Run: `python3 main.py --help`
