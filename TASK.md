@@ -1,4 +1,4 @@
-# Task: Bug: Detect/diagnose subtle logic drift in ag — The JSON trace files contain invalid JSO
+# Task: Bug: Detect/diagnose subtle logic drift in ag — The drift analysis reports show 0 traces
 
 **Category:** tool
 
@@ -6,7 +6,7 @@
 
 QA tester found a bug in 'Detect/diagnose subtle logic drift in agent workflows':
 
-**Bug:** The JSON trace files contain invalid JSON format - they're using newlines between objects instead of proper JSON array format
+**Bug:** The drift analysis reports show 0 traces loaded but still generate reports with default values
 
 **Artifact:** https://github.com/venturevd/detect-diagnose-subtle-logic-drift-in-ag
 **Tester verdict:** partial
@@ -25,6 +25,7 @@ Fix the bug and verify the tool works correctly.
   - **bug-build-an-integrity-verifier-for-agen** [has tests] (stdlib only)
     This tool cross-checks agent KPIs against raw telemetry, ensures data provenance, detects metric drift, and generates auditable reports to prevent misleading dashboards.
   - **bug-detect-diagnose-subtle-logic-drift-i** (stdlib only)
+    This tool fixes JSON trace files that contain invalid JSON format. The bug is that the files are using newlines between objects instead of proper JSON array format.
   - **bug-repair-build-tool-selection-assistan** [has tests] (stdlib only)
     This tool helps agents pick the best-fit tool for a given task without drowning in options.
   - **build-an-agent-representation-broker-to-match-agen** [has tests] deps: flask, requests
