@@ -22,6 +22,7 @@ import tempfile
 import shutil
 from collections import defaultdict
 from scipy.stats import ks_2samp
+from workflow_detector import WorkflowDetector
 
 def load_traces(directory):
     """
@@ -118,7 +119,7 @@ def analyze_drift(traces):
     # Group traces by workflow type
     workflow_groups = defaultdict(list)
     for trace in traces:
-        workflow_type = trace.get('workflow_type', 'unknown')
+        workflow_type = WorkflowDetector.detect(trace)
         workflow_groups[workflow_type].append(trace)
 
     results = {
@@ -176,6 +177,9 @@ def analyze_drift(traces):
     results['drift_detected'] = any(
         result.get('drift_detected') for result in results['drift_results'].values()
     )
+
+    # Update workflow_distribution based on detected types
+    results['workflow_distribution'] = WorkflowDetector.classify_batch(traces)
 
     return results
 

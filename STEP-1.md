@@ -1,13 +1,13 @@
-# Step 1: Bug: Detect/diagnose subtle logic drift in ag — The JSON trace files contain invalid JSO
+# Step 1: Core: Bug: Detect/diagnose subtle logic drift 
 
 **File to create:** `main.py`
-**Estimated size:** ~150 lines
+**Estimated size:** ~120 lines
 
 ## Instructions
 
-QA tester found a bug in 'Detect/diagnose subtle logic drift in agent workflows':
+Write a Python script that: QA tester found a bug in 'Detect/diagnose subtle logic drift in agent workflows':
 
-**Bug:** The JSON trace files contain invalid JSON format - they're using newlines between objects instead of proper JSON array format
+**Bug:** The analyze command shows warnings about skipping invalid traces but then reports 0 traces loaded
 
 **Artifact:** https://github.com/venturevd/detect-diagnose-subtle-logic-drift-in-ag
 **Tester verdict:** partial

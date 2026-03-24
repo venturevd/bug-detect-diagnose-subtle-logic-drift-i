@@ -1,16 +1,14 @@
-# Step 2: Add README documentation
+# Step 2: Documentation
 
-**File to create:** `main.py`
-**Estimated size:** ~200 lines
+**File to create:** `README.md`
+**Estimated size:** ~30 lines
+
+**Depends on:** STEP-1.md (those files should already exist)
 
 ## Instructions
 
-Create documentation explaining how to use the analyze command, including:
-1. Installation instructions
-2. Usage examples
-3. Command-line argument descriptions
-4. Expected output format
+Write a README.md for this tool. Title: Bug: Detect/diagnose subtle logic drift in ag — The analyze command shows warnings about. Include: what it does, how to install, how to use, example usage.
 
 ## Verification
 
-Run: `python3 main.py --help`
+Run: `cat README.md`
