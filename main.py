@@ -27,6 +27,11 @@ def load_traces(directory):
     """
     Load agent execution traces from JSON files in the specified directory.
 
+    Supports three JSON formats:
+    1. JSON array: [ {...}, {...}, ... ]
+    2. Single JSON object: { ... }
+    3. JSON lines (NDJSON): one JSON object per line
+
     Args:
         directory (str): Directory containing JSON trace files
 
@@ -53,31 +58,39 @@ def load_traces(directory):
             with open(file_path, 'r') as f:
                 content = f.read()
 
-                # Try to parse as JSON array first
-                try:
-                    data = json.loads(content)
-                    if isinstance(data, list):
-                        traces.extend(data)
-                        print(f"Loaded {len(data)} traces from {json_file} (array format)")
-                    else:
-                        print(f"Warning: {json_file} is not a JSON array, skipping")
-                except json.JSONDecodeError:
-                    # If that fails, try newline-separated objects
-                    # Handle both valid objects and empty lines
-                    lines = content.strip().split('\n')
-                    objects = []
-                    for i, line in enumerate(lines):
-                        if line.strip():
-                            try:
-                                objects.append(json.loads(line))
-                            except json.JSONDecodeError:
-                                print(f"Warning: Invalid JSON at line {i+1} in {json_file}, skipping")
-                                continue
-                    if objects:
-                        traces.extend(objects)
-                        print(f"Loaded {len(objects)} traces from {json_file} (newline format)")
-                    else:
-                        print(f"Warning: {json_file} is empty or not valid JSON, skipping")
+            if not content.strip():
+                print(f"Warning: {json_file} is empty, skipping")
+                continue
+
+            # First try to parse as standard JSON (array or single object)
+            try:
+                data = json.loads(content)
+                if isinstance(data, list):
+                    traces.extend(data)
+                    print(f"Loaded {len(data)} traces from {json_file} (array format)")
+                elif isinstance(data, dict):
+                    traces.append(data)
+                    print(f"Loaded 1 trace from {json_file} (single object format)")
+                else:
+                    print(f"Warning: {json_file} has unsupported JSON type {type(data).__name__}, skipping")
+            except json.JSONDecodeError:
+                # If standard JSON fails, try newline-separated JSON (NDJSON)
+                lines = content.strip().split('\n')
+                objects = []
+                for i, line in enumerate(lines):
+                    line = line.strip()
+                    if line:
+                        try:
+                            obj = json.loads(line)
+                            objects.append(obj)
+                        except json.JSONDecodeError:
+                            print(f"Warning: Invalid JSON at line {i+1} in {json_file}, skipping")
+                            continue
+                if objects:
+                    traces.extend(objects)
+                    print(f"Loaded {len(objects)} traces from {json_file} (newline format)")
+                else:
+                    print(f"Warning: {json_file} has no valid JSON objects, skipping")
         except Exception as e:
             print(f"Error loading {json_file}: {e}")
 

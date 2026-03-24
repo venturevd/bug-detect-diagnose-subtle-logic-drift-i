@@ -88,15 +88,30 @@ Tests passed: 10/10
 🎉 All tests PASSED!
 ```
 
-### Analyzing real traces
+### Supported JSON formats
 
-**Trace file format (newline-separated JSON):**
+The tool supports three JSON formats for trace files:
 
+#### 1. JSON Array
 ```json
-{"workflow_type": "agent", "steps": [{"action": "start"}, {"action": "end"}]}
-{"workflow_type": "agent", "steps": [{"action": "start"}, {"action": "step"}, {"action": "step"}, {"action": "end"}]}
+[
+  {"workflow_type": "agent", "steps": [{"action": "start"}]},
+  {"workflow_type": "agent", "steps": [{"action": "start"}, {"action": "end"}]}
+]
+```
+
+#### 2. Single JSON object
+```json
 {"workflow_type": "agent", "steps": [{"action": "start"}]}
 ```
+
+#### 3. JSON lines (NDJSON) - one object per line
+```
+{"workflow_type": "agent", "steps": [{"action": "start"}]}
+{"workflow_type": "agent", "steps": [{"action": "start"}, {"action": "end"}]}
+```
+
+### Analyzing real traces
 
 **Run analysis:**
 

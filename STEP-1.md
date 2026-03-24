@@ -1,16 +1,18 @@
-# Step 1: Create analyze command script
+# Step 1: Bug: Detect/diagnose subtle logic drift in ag — The JSON trace files contain invalid JSO
 
 **File to create:** `main.py`
-**Estimated size:** ~200 lines
+**Estimated size:** ~150 lines
 
 ## Instructions
 
-Write a Python script that implements the analyze command with proper trace loading logic. The script should:
-1. Load agent execution traces from a specified directory
-2. Validate each trace before processing
-3. Count and report both valid and skipped traces
-4. Provide clear output about which traces were skipped and why
-5. Include command-line arguments for input directory and output format
+QA tester found a bug in 'Detect/diagnose subtle logic drift in agent workflows':
+
+**Bug:** The JSON trace files contain invalid JSON format - they're using newlines between objects instead of proper JSON array format
+
+**Artifact:** https://github.com/venturevd/detect-diagnose-subtle-logic-drift-in-ag
+**Tester verdict:** partial
+
+Fix the bug and verify the tool works correctly.
 
 ## Verification
 

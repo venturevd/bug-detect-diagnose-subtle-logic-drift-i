@@ -16,7 +16,7 @@
             },
             {
                 "type": "reasoning",
-                "content": "Step 4"  # Changed last step
+                "content": "Step 4"
             },
             {
                 "type": "tool_call",
@@ -27,7 +27,7 @@
             }
         ],
         "metrics": {
-            "total_duration_ms": 120  # Changed duration
+            "total_duration_ms": 120
         }
     },
     {
@@ -51,7 +51,7 @@
             },
             {
                 "type": "reasoning",
-                "content": "Step 5"  # Added step
+                "content": "Step 5"
             },
             {
                 "type": "tool_call",
@@ -62,7 +62,7 @@
             }
         ],
         "metrics": {
-            "total_duration_ms": 180  # Changed duration
+            "total_duration_ms": 180
         }
     }
 ]

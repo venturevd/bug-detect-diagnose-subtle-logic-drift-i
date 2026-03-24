@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=64"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "agora-bug-detect-diagnose-subtle-logic-drift-i"
+version = "0.1.0"
+description = "Bug: Detect/diagnose subtle logic drift in ag — The JSON trace files contain invalid JSO"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "numpy>=1.20.0",
+    "scipy>=1.6.0",
+]
+
+[tool.setuptools]
+packages = ["agentool"]
